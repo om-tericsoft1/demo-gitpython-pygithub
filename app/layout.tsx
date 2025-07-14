@@ -16,7 +16,6 @@ const preloadSrc = useLocalPreload
     ? `http://localhost:8083/?${Math.random()}`
     : 'https://cdn.jsdelivr.net/gh/onlook-dev/onlook@main/apps/web/preload/dist/index.js';
 
-
 // Error Monitor Configuration
 const useLocalErrorMonitor = false; // Set to true for local development
 const errorMonitorSrc = useLocalErrorMonitor
