@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const skillsContainer = document.getElementById('skills-container');
         skills.forEach((skill, index) => {
             const skillElement = document.createElement('div');
-            skillElement.className = 'skill-item print-no-break';
+            skillElement.className = 'skill-item';
             skillElement.innerHTML = `
                 <div class="flex justify-between items-center mb-2">
                     <span class="font-medium text-gray-700">${skill.name}</span>
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const experienceContainer = document.getElementById('experience-container');
         experience.forEach((exp, index) => {
             const expElement = document.createElement('div');
-            expElement.className = 'border-l-4 border-blue-500 pl-6 pb-6 print-no-break';
+            expElement.className = 'border-l-4 border-blue-500 pl-6 pb-6';
             expElement.innerHTML = `
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
                     <h4 class="text-lg font-semibold text-gray-800">${exp.title}</h4>
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const projectsContainer = document.getElementById('projects-container');
         projects.forEach(project => {
             const projectElement = document.createElement('div');
-            projectElement.className = 'bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200 print-no-break';
+            projectElement.className = 'bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors duration-200';
             projectElement.innerHTML = `
                 <h4 class="font-semibold text-gray-800 mb-2">${project.title}</h4>
                 <p class="text-sm text-blue-600 mb-2">${project.tech}</p>
@@ -177,43 +177,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Enhanced print functionality with print-specific optimizations
-    function setupPrintFunctionality() {
-        // Add print styles dynamically for better browser compatibility
-        const printStyles = document.createElement('style');
-        printStyles.textContent = `
-            @media print {
-                /* Ensure skill bars are visible in print */
-                .skill-bar {
-                    width: var(--print-width) !important;
-                }
-            }
-        `;
-        document.head.appendChild(printStyles);
-
-        // Set print-specific widths for skill bars
-        const skillBars = document.querySelectorAll('.skill-bar');
-        skillBars.forEach(bar => {
-            bar.style.setProperty('--print-width', bar.dataset.width);
-        });
-
-        // Add print event listeners
-        window.addEventListener('beforeprint', () => {
-            // Expand all content for print
-            document.querySelectorAll('.skill-bar').forEach(bar => {
-                bar.style.width = bar.dataset.width;
-            });
-
-            // Remove any collapsed content
-            document.querySelectorAll('.hidden').forEach(el => {
-                el.classList.remove('hidden');
-            });
-        });
-
-        window.addEventListener('afterprint', () => {
-            // Restore interactive states after print
-            console.log('Print job completed');
-        });
+    // Add print functionality
+    function addPrintButton() {
+        const printButton = document.createElement('button');
+        printButton.className = 'fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors z-50';
+        printButton.innerHTML = '<i class="fas fa-print"></i>';
+        printButton.onclick = () => window.print();
+        document.body.appendChild(printButton);
     }
 
     // Initialize all functions
@@ -221,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
     populateExperience();
     populateProjects();
     addScrollAnimations();
-    setupPrintFunctionality();
+    addPrintButton();
 
     // Add typing animation restart on scroll
     let typingAnimationPlayed = false;
@@ -278,24 +248,10 @@ function validateForm(form) {
     return isValid;
 }
 
-// Enhanced print functionality
-function printResume() {
-    // Pre-print optimizations
-    const originalTitle = document.title;
-    document.title = 'Anand_Reddy_KS_Resume';
-    
-    // Trigger print
-    window.print();
-    
-    // Restore original title
-    document.title = originalTitle;
-}
-
 // Export functions for potential use in other modules
 window.resumeApp = {
     toggleMobileMenu,
     scrollToSection,
     downloadResume,
-    validateForm,
-    printResume
+    validateForm
 };
